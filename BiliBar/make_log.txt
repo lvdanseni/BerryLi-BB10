@@ -1,0 +1,7 @@
+﻿make.exe : make: *** No rule to make target `release'.  Stop.
+所在位置 行:1 字符: 402
++ ... ite-Host "Makefile OK" }; & make release *> make_log.txt 2>&1; Write- ...
++                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (make: *** No ru...elease'.  Stop.:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 

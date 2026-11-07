@@ -1,0 +1,23 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- BiliClient 深色主题色板（映射 BBTube CASCADES_THEME=dark?primaryColor=0xE6231F，主色换成 B 站粉 #FB7299） -->
+    <SolidColorBrush x:Key="BgBrush" Color="#17181A"/>
+    <SolidColorBrush x:Key="CardBgBrush" Color="#1F2124"/>
+    <SolidColorBrush x:Key="CardHoverBrush" Color="#26282C"/>
+    <SolidColorBrush x:Key="BorderBrushColor" Color="#2A2C30"/>
+    <SolidColorBrush x:Key="TextPrimaryBrush" Color="#F2F3F5"/>
+    <SolidColorBrush x:Key="TextSecondaryBrush" Color="#9CA0A6"/>
+    <SolidColorBrush x:Key="TextMutedBrush" Color="#6E7278"/>
+    <SolidColorBrush x:Key="AccentBrush" Color="#FB7299"/>
+    <SolidColorBrush x:Key="AccentHoverBrush" Color="#FC8BAD"/>
+    <SolidColorBrush x:Key="AccentDarkBrush" Color="#E5497A"/>
+    <SolidColorBrush x:Key="ThumbBgBrush" Color="#26272B"/>
+    <SolidColorBrush x:Key="WhiteBrush" Color="#FFFFFF"/>
+    <SolidColorBrush x:Key="BlackBrush" Color="#000000"/>
+
+    <!-- 导航栏激活指示色 -->
+    <SolidColorBrush x:Key="NavActiveBrush" Color="#FB7299"/>
+    <SolidColorBrush x:Key="NavInactiveBrush" Color="#9CA0A6"/>
+
+</ResourceDictionary>

@@ -1,0 +1,47 @@
+# ============================================
+# BerryLi 项目 .gitignore
+# ============================================
+
+# --- 编译产物（所有语言通用）---
+*.exe
+*.dll
+*.so
+*.bar
+*.pdb
+*.o
+*.obj
+
+# --- .NET / MSBuild 产物 ---
+bin/
+obj/
+*.nuget.props
+*.nuget.targets
+project.assets.json
+project.nuget.cache
+
+# --- Qt / QNX 构建中间产物 ---
+.moc/
+.obj/
+.moc_*/
+
+# --- 日志与临时文件 ---
+*.log
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+
+# --- macOS / Windows 系统文件 ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- IDE ---
+.vscode/
+.idea/
+*.suo
+*.user
+
+# --- 独立产物（可单独作为 Release 附件上传）---
+*.bar

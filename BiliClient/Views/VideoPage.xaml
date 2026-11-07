@@ -1,0 +1,131 @@
+<UserControl x:Class="BiliClient.Views.VideoPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:BiliClient.Controls"
+             xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+             Background="{StaticResource BgBrush}">
+    <Grid>
+        <!-- 主滚动内容 -->
+        <ScrollViewer x:Name="MainScroll" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <!-- 返回行 -->
+                <StackPanel Orientation="Horizontal" Margin="28,20,28,8">
+                    <Button Content="&#xE72B;  返回" Style="{StaticResource PillButtonStyle}" Click="OnBackClick"/>
+                </StackPanel>
+
+                <!-- 播放器（对应 VideoPage 的 VideoView + VideoControls） -->
+                <Border x:Name="PlayerBorder" Background="#000000" Margin="28,0,28,0">
+                    <Grid>
+                        <wv2:WebView2 x:Name="Player" Visibility="Collapsed"/>
+                        <StackPanel x:Name="PlayerLoading" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <ProgressBar Width="140" Height="3" IsIndeterminate="True"/>
+                            <TextBlock Text="正在加载播放器…" Foreground="{StaticResource TextMutedBrush}"
+                                       FontSize="12" Margin="0,12,0,0" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                        <StackPanel x:Name="PlayerError" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                    Visibility="Collapsed" MaxWidth="560">
+                            <TextBlock Text="视频无法播放" Foreground="{StaticResource TextSecondaryBrush}"
+                                       FontSize="15" HorizontalAlignment="Center"/>
+                            <TextBlock x:Name="PlayerErrorMsg" Foreground="{StaticResource TextMutedBrush}"
+                                       FontSize="12" TextWrapping="Wrap" TextAlignment="Center"
+                                       Margin="0,10,0,0" HorizontalAlignment="Center"/>
+                            <Button Content="在浏览器打开" Style="{StaticResource PillButtonStyle}"
+                                    Margin="0,16,0,0" HorizontalAlignment="Center" Click="OnOpenInBrowser"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- 标题 -->
+                <TextBlock x:Name="TitleText" FontSize="22" FontWeight="Bold"
+                           Foreground="{StaticResource TextPrimaryBrush}" TextWrapping="Wrap"
+                           Margin="28,18,28,0"/>
+
+                <!-- 数据行：播放/弹幕/时间/分区 -->
+                <TextBlock x:Name="StatText" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}"
+                           Margin="28,8,28,0"/>
+
+                <!-- 操作药丸行（对应 VideoPage 的 PillButton 行） -->
+                <StackPanel Orientation="Horizontal" Margin="28,14,28,0">
+                    <Button Content="&#xE8C7;  复制链接" Style="{StaticResource PillButtonStyle}" Click="OnCopyLink"/>
+                    <Button Content="&#xE774;  浏览器打开" Style="{StaticResource PillButtonStyle}"
+                            Margin="10,0,0,0" Click="OnOpenInBrowser"/>
+                    <Button Content="&#xE72C;  刷新" Style="{StaticResource PillButtonStyle}"
+                            Margin="10,0,0,0" Click="OnReloadPlayer"/>
+                </StackPanel>
+
+                <!-- UP 主行（对应 VideoInfo：头像 + 名字） -->
+                <Border Background="{StaticResource CardBgBrush}" CornerRadius="10"
+                        Margin="28,18,28,0" Padding="14,12">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Width="40" Height="40" CornerRadius="20" ClipToBounds="True"
+                                Background="{StaticResource ThumbBgBrush}">
+                            <controls:RemoteImage x:Name="OwnerAvatar" SourceUrl="{Binding OwnerFace, ElementName=Root}"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center" Margin="12,0,0,0">
+                            <TextBlock x:Name="OwnerName" FontSize="15" FontWeight="SemiBold"
+                                       Foreground="{StaticResource TextPrimaryBrush}"/>
+                            <TextBlock x:Name="OwnerMid" FontSize="12" Foreground="{StaticResource TextMutedBrush}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- 简介（对应 ExpandableView 描述） -->
+                <Border Margin="28,18,28,0" Padding="0">
+                    <TextBlock x:Name="DescText" FontSize="13" Foreground="{StaticResource TextSecondaryBrush}"
+                               TextWrapping="Wrap" MaxHeight="160"/>
+                </Border>
+
+                <!-- 评论 -->
+                <StackPanel Margin="28,22,28,0">
+                    <TextBlock x:Name="CommentHeader" FontSize="16" FontWeight="SemiBold"
+                               Foreground="{StaticResource TextPrimaryBrush}" Text="评论"/>
+                    <ItemsControl x:Name="CommentList" Margin="0,12,0,24">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="{StaticResource CardBgBrush}" CornerRadius="10"
+                                        Margin="0,0,0,10" Padding="12,10">
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border Width="32" Height="32" CornerRadius="16" ClipToBounds="True"
+                                                    Background="{StaticResource ThumbBgBrush}">
+                                                <controls:RemoteImage SourceUrl="{Binding FaceUrl}"/>
+                                            </Border>
+                                            <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding UserName}" FontSize="13" FontWeight="SemiBold"
+                                                           Foreground="{StaticResource TextPrimaryBrush}"/>
+                                                <TextBlock Text="{Binding TimeText}" FontSize="11"
+                                                           Foreground="{StaticResource TextMutedBrush}"/>
+                                            </StackPanel>
+                                            <TextBlock Text="{Binding Like, StringFormat={}{0} 赞}" FontSize="12"
+                                                       Foreground="{StaticResource TextMutedBrush}"
+                                                       HorizontalAlignment="Right"/>
+                                        </StackPanel>
+                                        <TextBlock Text="{Binding Message}" FontSize="13"
+                                                   Foreground="{StaticResource TextSecondaryBrush}"
+                                                   TextWrapping="Wrap" Margin="0,10,0,0"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- 详情加载中 -->
+        <StackPanel x:Name="DetailLoading" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <ProgressBar Width="140" Height="3" IsIndeterminate="True"/>
+            <TextBlock Text="加载视频信息…" Foreground="{StaticResource TextMutedBrush}"
+                       FontSize="12" Margin="0,12,0,0" HorizontalAlignment="Center"/>
+        </StackPanel>
+
+        <!-- 详情加载失败 -->
+        <StackPanel x:Name="DetailError" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Visibility="Collapsed">
+            <TextBlock x:Name="DetailErrorMsg" Foreground="{StaticResource TextSecondaryBrush}"
+                       FontSize="14" TextWrapping="Wrap" MaxWidth="520" TextAlignment="Center"/>
+            <Button Content="重试" Style="{StaticResource PillButtonStyle}" Margin="0,16,0,0"
+                    HorizontalAlignment="Center" Click="OnRetryDetail"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

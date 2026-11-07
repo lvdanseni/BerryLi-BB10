@@ -1,0 +1,17 @@
+<UserControl x:Class="BiliClient.Controls.RemoteImage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="{StaticResource ThumbBgBrush}">
+    <Grid>
+        <!-- 占位/加载底色 -->
+        <Border x:Name="Placeholder" Background="{StaticResource ThumbBgBrush}">
+            <TextBlock Text="&#x1F5BC;&#xFE0E;" FontSize="20" Foreground="{StaticResource TextMutedBrush}"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <Image x:Name="Img" Stretch="UniformToFill" Visibility="Collapsed"/>
+        <!-- 加载中 -->
+        <ProgressBar x:Name="Spinner" Height="2" Width="48" IsIndeterminate="True"
+                     HorizontalAlignment="Center" VerticalAlignment="Center"
+                     Visibility="Collapsed" IsHitTestVisible="False"/>
+    </Grid>
+</UserControl>

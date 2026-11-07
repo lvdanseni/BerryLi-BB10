@@ -1,0 +1,72 @@
+<UserControl x:Class="BiliClient.Views.FeedPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:BiliClient.Controls"
+             Background="{StaticResource BgBrush}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- 页头：标题 + 刷新（对应 HomePage TitleBarWithAction） -->
+        <Border Grid.Row="0" Padding="28,22,28,14">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="HeaderTitle" Style="{StaticResource PageTitleStyle}"
+                           Text="{Binding PageTitle, ElementName=Root, FallbackValue=Feed}"/>
+                <Button Grid.Column="1" Style="{StaticResource PillButtonStyle}" Content="&#x27F3; 刷新"
+                        Click="OnRefreshClick" VerticalAlignment="Center"/>
+            </Grid>
+        </Border>
+
+        <!-- 卡片流 -->
+        <ScrollViewer x:Name="Scroller" Grid.Row="1" VerticalScrollBarVisibility="Auto"
+                      Padding="20,0,20,24" ScrollChanged="OnScrollChanged">
+            <ItemsControl x:Name="CardList">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <controls:VideoCard Margin="0,0,16,16"
+                                            Bvid="{Binding Bvid}"
+                                            Title="{Binding Title}"
+                                            PicUrl="{Binding PicUrl}"
+                                            DurationText="{Binding DurationText}"
+                                            MetaText="{Binding MetaText}"
+                                            Click="OnCardClick"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <!-- 首次加载大转圈（对应 HomePage 的 first-load spinner） -->
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Visibility="{Binding ShowBigSpinner, ElementName=Root, Converter={StaticResource BoolToVisible}}">
+            <ProgressBar Width="120" Height="3" IsIndeterminate="True"/>
+            <TextBlock Text="加载中…" Foreground="{StaticResource TextMutedBrush}" FontSize="12"
+                       HorizontalAlignment="Center" Margin="0,12,0,0"/>
+        </StackPanel>
+
+        <!-- 底部加载更多（对应 HomePage 的 footer spinner） -->
+        <StackPanel Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,10"
+                    Visibility="{Binding ShowMoreSpinner, ElementName=Root, Converter={StaticResource BoolToVisible}}">
+            <ProgressBar Width="120" Height="3" IsIndeterminate="True"/>
+        </StackPanel>
+
+        <!-- 错误 + 重试（对应 HomePage 的 error retry） -->
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                    Visibility="{Binding HasError, ElementName=Root, Converter={StaticResource BoolToVisible}}">
+            <TextBlock Text="{Binding Error, ElementName=Root}" Foreground="{StaticResource TextSecondaryBrush}"
+                       FontSize="14" MaxWidth="520" TextWrapping="Wrap" TextAlignment="Center"/>
+            <Button Content="重试" Style="{StaticResource PillButtonStyle}" Margin="0,16,0,0"
+                    HorizontalAlignment="Center" Click="OnRetryClick"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
