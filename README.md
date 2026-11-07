@@ -1,5 +1,5 @@
-# BerryLi 完整源码整理包
-
+# BerryLi 
+这是一个由Ai编写的黑莓BB10原生bilibili客户端仅供学习参考；
 BlackBerry 10 原生 bilibili 客户端（Cascades / QML + C++）
 
 ## 目录结构
